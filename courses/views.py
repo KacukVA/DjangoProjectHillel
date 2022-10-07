@@ -1,5 +1,5 @@
-from django.views.generic import TemplateView
-from courses.models import Student, Group, Teacher
+from django.views.generic import TemplateView, ListView
+from courses.models import Category, Course
 
 
 class IndexView(TemplateView):
@@ -7,24 +7,20 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(IndexView, self).get_context_data(**kwargs)
+        context.update({'categories': Category.objects.all()})
+        return context
 
-        print(
-            # Вивести всіх студентів
-            Student.objects.all(),
-            # Вивести всі группи
-            Group.objects.all(),
-            # Вивести всіх вчетелів
-            Teacher.objects.all(),
-            # Вивести всіх студентів для однієї групи
-            Student.objects.filter(group_id=1),
-            # Вивести всіх студентів для одного викладача
-            Student.objects.prefetch_related('group__teacher_set').filter(group__teacher=1),
-            # Вивести усіх студентів чий вік більше 20
-            Student.objects.filter(age__gt=20),
-            # Вивести усіх студентів для одного викладача чий вік більше 20
-            Student.objects.prefetch_related('group__teacher_set').filter(group__teacher=1, group__teacher__age__gt=20),
-            # Вивести усіх студентів у яких email на домені gmail.com
-            Student.objects.filter(email__contains='gmail'),
-            sep='\n'
-        )
+
+class CategoryView(ListView):
+    model = Course
+    template_name = "index.html"
+    paginate_by = 10  # вот это делает доп. запрос
+
+    def get_queryset(self):
+        queryset = super(CategoryView, self).get_queryset()
+        return queryset.filter(category=self.kwargs['cat']).select_related('teacher')
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryView, self).get_context_data(**kwargs)
+        context.update({'categories': Category.objects.all()})
         return context

@@ -20,5 +20,6 @@ from courses import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view()),
+    path('category/<str:cat>/', views.CategoryView.as_view(), name='category'),
     path('__debug__/', include('debug_toolbar.urls')),
 ]
