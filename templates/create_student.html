@@ -28,19 +28,18 @@
                aria-describedby="inputGroup-sizing-default" name="last_name" required>
     </div>
     <div style="color: red">{{ form.last_name.errors }}</div>
-
     <div class="input-group mb-3">
         <span class="input-group-text" id="inputGroup-sizing-default" style="width: 7em">Age</span>
-        <input type="text" class="form-control" aria-label="Sizing example input"
+        <input type="number" class="form-control" aria-label="Sizing example input"
                aria-describedby="inputGroup-sizing-default" name="age" required>
     </div>
     <div style="color: red">{{ form.age.errors }}</div>
-
-
+    <div class="input-group mb-3" name="age">
+    </div>
     <div class="input-group mb-3">
         <span class="input-group-text" id="inputGroup-sizing-default"
               style="width: 7em">{{ form.group.label }}</span>
-        <select name="category" class="form-select" aria-label="group" required>
+        <select class="form-select" aria-label="group" name="group" required>
             {% for item in form.group %}
                 {{ item }}
             {% endfor %}

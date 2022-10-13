@@ -36,11 +36,20 @@ class Teacher(Person):
     pass
 
 
-class Student(Person):
+class Student(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255, unique=True)
-    age = models.PositiveSmallIntegerField()
-    email = models.EmailField(blank=True)
+    group = models.ForeignKey("courses.Group", on_delete=models.SET_NULL, null=True)
+    age = models.IntegerField(
+        default=1,
+        validators=[
+            MaxValueValidator(125),
+            MinValueValidator(19)
+        ]
+     )
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class Category(AbstractName):
