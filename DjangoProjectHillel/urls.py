@@ -21,5 +21,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.IndexView.as_view()),
     path('category/<str:cat>/', views.CategoryView.as_view(), name='category'),
+    path("course/create/", views.CreateCourse.as_view(), name='add_course'),
+    path("student/create/", views.CreateStudent.as_view(), name='add_student'),
     path('__debug__/', include('debug_toolbar.urls')),
+
 ]

@@ -22,7 +22,7 @@ class Person(AbstractName):
         default=1,
         validators=[
             MaxValueValidator(125),
-            MinValueValidator(1)  # 1 т.к. пока вы не можете выговорить слово "python" - начинать его учить не стоит
+            MinValueValidator(18)
         ]
      )
     email = models.EmailField()
@@ -37,7 +37,10 @@ class Teacher(Person):
 
 
 class Student(Person):
-    pass
+    first_name = models.CharField(max_length=255)
+    last_name = models.CharField(max_length=255, unique=True)
+    age = models.PositiveSmallIntegerField()
+    email = models.EmailField(blank=True)
 
 
 class Category(AbstractName):
@@ -51,9 +54,10 @@ class CourseManager(models.Manager):
 
 
 class Course(AbstractName):
+    name = models.CharField(max_length=255, unique=True)
     category = models.ForeignKey('courses.Category', on_delete=models.SET_NULL, null=True)
     teacher = models.ForeignKey('courses.Teacher', on_delete=models.SET_NULL, null=True, blank=True)
     description = models.TextField(blank=True)
-    thesis = models.CharField(max_length=255)
+    thesis = models.CharField(max_length=255, blank=True)
 
-    objects = CourseManager()  # так же убирает отображение из админки. Правила едины для всех :(
+    objects = CourseManager()

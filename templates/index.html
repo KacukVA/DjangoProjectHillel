@@ -15,9 +15,7 @@
     </div>
 </div>
 <ul class="nav nav-pills">
-    <li class="nav-item">
-    </li>
-    <li class="nav-item dropdown" style="margin-left: 20px">
+    <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Categories</a>
         <ul class="dropdown-menu">
             {% for category in categories %}
@@ -25,9 +23,14 @@
             {% endfor %}
         </ul>
     </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'add_course' %}">Create course</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'add_student' %}">Create student</a>
+  </li>
 </ul>
 {% for cours in course_list%}
-
     <div class="card border-primary mb-3" style="margin: 2rem;">
         <div class="card-header"><b>{{ cours.name }}</b></div>
         <div class="card-body text-primary">
