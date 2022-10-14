@@ -64,8 +64,6 @@ class CreateStudent(TemplateView):
         if form.is_valid():
             form.create_student()
             return redirect('/')
-        else:
-            print(form.errors)
 
         context = self.get_context_data()
         context['form'] = form

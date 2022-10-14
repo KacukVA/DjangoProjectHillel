@@ -35,8 +35,8 @@ class StudentCreateForm(forms.Form):
 
 class CourseCreateForm(forms.Form):
     name = forms.CharField()
-    category = forms.ModelChoiceField(queryset=Category.objects.all(), to_field_name='name')
-    teacher = forms.ModelChoiceField(queryset=Teacher.objects.all(), to_field_name='name')
+    category = forms.ModelChoiceField(queryset=Category.objects.all())
+    teacher = forms.ModelChoiceField(queryset=Teacher.objects.all())
     description = forms.CharField(required=False)
     thesis = forms.CharField(required=False)  # widget=forms.widgets.Textarea() - и без него все хорошо
 
@@ -52,6 +52,6 @@ class CourseCreateForm(forms.Form):
 
     def clean_name(self):
         name = self.cleaned_data['name']
-        if Course.objects.filter(name=name.strip()).exists():
+        if Course.objects.filter(name=name).exists():
             raise ValidationError("Name already exists")
         return name
