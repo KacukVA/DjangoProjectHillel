@@ -1,22 +1,33 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from courses.models import Student, Course, Category, Teacher, Group
+from courses.models import Student, Course
 
 
-class StudentCreateForm(forms.Form):
-    first_name = forms.CharField()
-    last_name = forms.CharField()
-    group = forms.ModelChoiceField(queryset=Group.objects.all())
-    age = forms.IntegerField(min_value=19, max_value=125)
+class CourseCreateForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = '__all__'
 
-    def create_student(self):
-        student = Student.objects.create(
-            first_name=self.cleaned_data['first_name'],
-            last_name=self.cleaned_data['last_name'],
-            group=self.cleaned_data['group'],
-            age=self.cleaned_data['age'],
-        )
-        return student
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
+            'teacher': forms.Select(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}),
+            'thesis': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}),
+        }
+
+
+class StudentCreateForm(forms.ModelForm):
+    class Meta:
+        model = Student
+        fields = '__all__'
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'age': forms.NumberInput(attrs={'class': 'form-control'}),
+            'group': forms.Select(attrs={'class': 'form-control'}),
+        }
 
     def clean_first_name(self):
         first_name = self.cleaned_data['first_name']
@@ -28,30 +39,4 @@ class StudentCreateForm(forms.Form):
         last_name = self.cleaned_data['last_name']
         if last_name.count(' '):
             raise ValidationError("Last name can not contain spaces")
-        if Student.objects.filter(last_name=last_name).exists():
-            raise ValidationError("Last name already exists")
         return last_name
-
-
-class CourseCreateForm(forms.Form):
-    name = forms.CharField()
-    category = forms.ModelChoiceField(queryset=Category.objects.all())
-    teacher = forms.ModelChoiceField(queryset=Teacher.objects.all())
-    description = forms.CharField(required=False)
-    thesis = forms.CharField(required=False)  # widget=forms.widgets.Textarea() - и без него все хорошо
-
-    def create_course(self):
-        course = Course.objects.create(
-            name=self.cleaned_data['name'],
-            category=self.cleaned_data['category'],
-            teacher=self.cleaned_data['teacher'],
-            description=self.cleaned_data['description'],
-            thesis=self.cleaned_data['thesis']
-        )
-        return course
-
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        if Course.objects.filter(name=name).exists():
-            raise ValidationError("Name already exists")
-        return name

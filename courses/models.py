@@ -70,3 +70,6 @@ class Course(AbstractName):
     thesis = models.CharField(max_length=255, blank=True)
 
     objects = CourseManager()
+
+    def __str__(self):
+        return self.name

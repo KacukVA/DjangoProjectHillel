@@ -1,15 +1,14 @@
-{% extends 'base.html' %}
+{% extends 'template.html' %}
 {% block title %}
-    Add course
+Add ..
 {% endblock %}
 {% block content %}
-    <h1>Create course</h1>
-{#    <br/><br/>#}
+    <h1>{{ title }}</h1>
     <div class="form-group">
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="btn btn-success">Create</button>
+            <button class="btn btn-success">Submit</button>
         </form>
     </div>
 {% endblock %}

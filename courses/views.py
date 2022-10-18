@@ -1,70 +1,48 @@
-from django.shortcuts import redirect
-from django.views.generic import TemplateView, ListView, DetailView
-from courses.models import Category, Course
+from django.views.generic import ListView, DetailView, CreateView, FormView
+from courses.models import Course
 from courses.forms import CourseCreateForm, StudentCreateForm
 
 
-class IndexView(TemplateView):
+class IndexView(ListView):
+    model = Course
     template_name = 'index.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data(**kwargs)
-        context.update({'categories': Category.objects.all()})
-        return context
 
-
-class CategoryView(ListView):
-    model = Course
-    template_name = "index.html"
-    paginate_by = 4
+class CategoryView(IndexView):
+    paginate_by = 10
 
     def get_queryset(self):
         queryset = super(CategoryView, self).get_queryset()
-        return queryset.filter(category=self.kwargs['cat']).select_related('teacher')
+        return queryset.filter(category=self.kwargs['category']).select_related('teacher')
+
+
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = 'course_detail.html'
+
+
+class CourseCreateView(CreateView):
+    model = Course
+    form_class = CourseCreateForm
+    template_name = 'create.html'
+    success_url = '/'
 
     def get_context_data(self, **kwargs):
-        context = super(CategoryView, self).get_context_data(**kwargs)
-        context.update({'categories': Category.objects.all()})
+        context = super(CourseCreateView, self).get_context_data(**kwargs)
+        context.update({'title': 'Add course'})
         return context
 
 
-class CourseView(DetailView):
-    template_name = 'index.html'
-
-
-class CreateCourse(TemplateView):
-    template_name = 'create_course.html'
+class StudentCreateView(FormView):
+    form_class = StudentCreateForm
+    template_name = 'create.html'
+    success_url = '/'
 
     def get_context_data(self, **kwargs):
-        context = super(CreateCourse, self).get_context_data(**kwargs)
-        context['form'] = CourseCreateForm()
+        context = super(StudentCreateView, self).get_context_data(**kwargs)
+        context.update({'title': 'Add student'})
         return context
 
-    def post(self, request):
-        form = CourseCreateForm(data=request.POST)
-        if form.is_valid():
-            form.create_course()
-            return redirect('/')
-
-        context = self.get_context_data()
-        context['form'] = form
-        return self.render_to_response(context)
-
-
-class CreateStudent(TemplateView):
-    template_name = 'create_student.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(CreateStudent, self).get_context_data(**kwargs)
-        context['form'] = StudentCreateForm()
-        return context
-
-    def post(self, request):
-        form = StudentCreateForm(data=request.POST)
-        if form.is_valid():
-            form.create_student()
-            return redirect('/')
-
-        context = self.get_context_data()
-        context['form'] = form
-        return self.render_to_response(context)
+    def form_valid(self, form):
+        form.save()
+        return super(StudentCreateView, self).form_valid(form)

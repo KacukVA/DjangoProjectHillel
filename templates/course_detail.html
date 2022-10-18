@@ -1,10 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends 'template.html' %}
+{% block title %}
+{{ course.name }}
+{% endblock %}
+{% block content %}
+<h1>{{ course.name }}</h1>
+<hr>
+<p><b>Category:</b> {{ course.category }}</p>
+<p><b>Teacher:</b> {{ course.teacher }}</p>
+<p><b>Description:</b> {{ course.description }}</p>
+<p><b>Thesis:</b> {{ course.thesis }}</p>
+    <a href="/">Home</a>
+{% endblock %}
