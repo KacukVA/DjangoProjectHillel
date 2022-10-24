@@ -1,4 +1,6 @@
-from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, TemplateView
 from courses.models import Course, Student
 from courses.forms import CourseCreateForm, StudentCreateForm
 
@@ -21,9 +23,19 @@ class CategoryView(IndexView):
         return queryset.filter(category=self.kwargs['category']).select_related('teacher')
 
 
+class UserProfileTemplateView(LoginRequiredMixin, TemplateView):
+    template_name = 'user_profile.html'
+    form_class = ''
+
+
 class CourseDetailView(DetailView):
     model = Course
     template_name = 'course_detail.html'
+
+
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = 'student_detail.html'
 
 
 class CourseCreateView(CreateView):
@@ -41,7 +53,7 @@ class CourseCreateView(CreateView):
 class StudentCreateView(FormView):
     form_class = StudentCreateForm
     template_name = 'create.html'
-    success_url = '/'
+    success_url = '/students'
 
     def get_context_data(self, **kwargs):
         context = super(StudentCreateView, self).get_context_data(**kwargs)
@@ -64,4 +76,4 @@ class StudentUpdateView(UpdateView):
     model = Student
     template_name = "student_update.html"
     form_class = StudentCreateForm
-    success_url = '/'
+    success_url = '/students'

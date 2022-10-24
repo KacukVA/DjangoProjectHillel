@@ -7,15 +7,15 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th scope="col">Title</th>
-            <th scope="col">Teacher</th>
+            <th scope="col">Name</th>
+            <th scope="col">Group</th>
         </tr>
         </thead>
-        <tbody id="courses">
-        {% for course in object_list %}
+        <tbody id="students">
+        {% for student in object_list %}
             <tr>
-                <td><a href="{% url 'course_detail' course.id %}">{{ course.name }}</a></td>
-                <td>{{ course.teacher }}</td>
+                <td><a href="{% url 'student_detail' student.id %}">{{ student }}</a></td>
+                <td>{{ student.group }}</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -1,15 +1,14 @@
 {% extends 'template.html' %}
 {% block title %}
-{{ student.first_name }} {{ student.last_name }}
+    {{ student }}
 {% endblock %}
 {% block content %}
-<h1>{{ student.first_name }} {{ student.last_name }}</h1>
+<h1>{{ student }}</h1>
 <hr>
 <p><b>First name:</b> {{ student.first_name }}</p>
 <p><b>Last name:</b> {{ student.last_name }}</p>
-<p><b>Description:</b> {{ course.description }}</p>
-<p><b>Thesis:</b> {{ course.thesis }}</p>
+<p><b>Group:</b> {{ student.group }}</p>
     <a href="/">Home</a>
     &nbsp;&nbsp;
-    <a href="{% url 'course_update' course.id %}">Update</a>
+    <a href="{% url 'student_update' student.id %}">Update</a>
 {% endblock %}

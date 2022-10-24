@@ -1,9 +1,9 @@
 {% extends 'template.html' %}
 {% block title %}
-{{ student.first_name }} {{ student.last_name }}
+{{ student }}
 {% endblock %}
 {% block content %}
-<h1>Edit "{{ student.first_name }} {{ student.last_name }}"</h1>
+<h1>Edit "{{ student }}"</h1>
 <hr>
 <div class="form-group">
     <form method="post">

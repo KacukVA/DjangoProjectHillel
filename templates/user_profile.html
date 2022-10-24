@@ -1,0 +1,9 @@
+{% extends 'template.html' %}
+{% block title %}
+    {{ student }}
+{% endblock %}
+{% block content %}
+            {% csrf_token %}
+            {{ user }}
+    <a href="/">Home</a>
+{% endblock %}
