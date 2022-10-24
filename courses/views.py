@@ -1,11 +1,16 @@
-from django.views.generic import ListView, DetailView, CreateView, FormView
-from courses.models import Course
+from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView
+from courses.models import Course, Student
 from courses.forms import CourseCreateForm, StudentCreateForm
 
 
 class IndexView(ListView):
     model = Course
     template_name = 'index.html'
+
+
+class StudentListView(ListView):
+    model = Student
+    template_name = 'students.html'
 
 
 class CategoryView(IndexView):
@@ -46,3 +51,17 @@ class StudentCreateView(FormView):
     def form_valid(self, form):
         form.save()
         return super(StudentCreateView, self).form_valid(form)
+
+
+class CourseUpdateView(UpdateView):
+    model = Course
+    template_name = "course_update.html"
+    form_class = CourseCreateForm
+    success_url = '/'
+
+
+class StudentUpdateView(UpdateView):
+    model = Student
+    template_name = "student_update.html"
+    form_class = StudentCreateForm
+    success_url = '/'
