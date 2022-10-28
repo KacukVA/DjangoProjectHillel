@@ -8,14 +8,12 @@
         <thead>
         <tr>
             <th scope="col">Title</th>
-            <th scope="col">Teacher</th>
         </tr>
         </thead>
         <tbody id="courses">
         {% for course in object_list %}
             <tr>
                 <td><a href="{% url 'course_detail' course.id %}">{{ course.name }}</a></td>
-                <td>{{ course.teacher }}</td>
             </tr>
         {% endfor %}
         </tbody>
