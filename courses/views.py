@@ -9,10 +9,16 @@ class IndexView(ListView):
     model = Course
     template_name = 'index.html'
 
+    def get_queryset(self):
+        return self.model.objects.select_related('teacher')
+
 
 class StudentListView(ListView):
     model = Student
     template_name = 'students.html'
+
+    def get_queryset(self):
+        return self.model.objects.select_related('group')
 
 
 class CategoryView(IndexView):
@@ -39,7 +45,6 @@ class StudentDetailView(DetailView):
 
 
 class CourseCreateView(CreateView):
-    model = Course
     form_class = CourseCreateForm
     template_name = 'create.html'
     success_url = '/'

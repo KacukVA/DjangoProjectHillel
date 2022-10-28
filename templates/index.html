@@ -4,7 +4,8 @@
     Courses
 {% endblock %}
 {% block content %}
-
+    <br>
+     {% get_favorites %}
     <table class="table table-hover">
         <thead>
         <tr>
@@ -22,7 +23,7 @@
         </tbody>
     </table>
     <div>
-        {% get_favorites %}
+
     </div>
 
 {% endblock %}

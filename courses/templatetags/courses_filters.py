@@ -1,25 +1,26 @@
 from django import template
-from django.db.models import Count, Sum
-
-from courses.models import Course, Student, Group
+from django.db.models import Count
+from courses.models import Student
+import re
 
 register = template.Library()
 
 
 @register.filter()
-def get_doubles(text):
-    pass
+def get_pair(text):
+    return [x for x in text if isinstance(x, int) and x % 2 == 0]
 
 
 @register.filter()
 def word_count(text):
-    pass
+    return len(re.findall(r'\w+', text))
 
 
+# В задаче указано "іемплітний фільтр", а это инклюжен тег, но на занятии вы и его называли темплейт фильтром.
+# Я запутался, но думаю, что сделал правильно :)
 @register.inclusion_tag('includes/course_list.html')
 def get_favorites():
-    # result = Student.objects.values_list('group__course__name').annotate(course_count=Count('group__course')).order_by('-course_count')[:5]
-    # print(result)
     return {
-        'favorites': Student.objects.values('group__course__name').annotate(course_count=Count('group__course')).order_by('-course_count')[:5]
+        'favorites': Student.objects.values('group__course__name', 'group__course__id').annotate(
+            course_count=Count('group__course')).order_by('-course_count')[:5]
     }
