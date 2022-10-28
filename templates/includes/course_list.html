@@ -1,10 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{#{% extends 'template.html' %}#}
+{% for favorite in favorites %}
+    <p>{{ favorite.group__course__name }}</p>
+{% endfor %}

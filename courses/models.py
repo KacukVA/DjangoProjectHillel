@@ -14,7 +14,8 @@ class AbstractName(models.Model):
 
 
 class Group(AbstractName):
-    pass
+    course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)
+    # course = models.ForeignKey("courses.Course",  on_delete=models.SET_NULL, null=True)
 
 
 class Person(AbstractName):
