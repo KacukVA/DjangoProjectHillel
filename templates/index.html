@@ -1,0 +1,22 @@
+{% extends 'template.html' %}
+{% block title %}
+    Courses
+{% endblock %}
+{% block content %}
+
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Title</th>
+        </tr>
+        </thead>
+        <tbody id="courses">
+        {% for course in object_list %}
+            <tr>
+                <td><a href="{% url 'course_detail' course.id %}">{{ course.name }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
