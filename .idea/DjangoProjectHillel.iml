@@ -22,7 +22,7 @@
       <excludeFolder url="file://$MODULE_DIR$/.fleet" />
       <excludeFolder url="file://$MODULE_DIR$/src" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.8.10 WSL (Ubuntu): (/home/aronaks/.virtualenvs/DjangoProjectHillel/bin/python)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (DjangoProjectHillel)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
