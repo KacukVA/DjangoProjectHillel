@@ -9,8 +9,10 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
+
+from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -138,3 +140,13 @@ INTERNAL_IPS = [
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CELERY_TIME_ZONE = TIME_ZONE
+
+CELERY_BEAT_SCHEDULE = {
+    'daily_mail': {
+        'task': 'courses.tasks.daily_mail',
+        'schedule': crontab(minute=0, hour=0)
+    }
+}

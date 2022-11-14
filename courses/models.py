@@ -48,6 +48,7 @@ class Student(models.Model):
             MinValueValidator(19)
         ]
      )
+    email = models.EmailField(max_length=100, null=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -74,3 +75,7 @@ class Course(AbstractName):
 
     def __str__(self):
         return self.name
+
+
+class DelayedMail(AbstractName):
+    course = models.ForeignKey("courses.Course", on_delete=models.CASCADE)

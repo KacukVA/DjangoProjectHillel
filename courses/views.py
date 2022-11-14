@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, TemplateView
-from courses.models import Course, Student
+from courses.models import Course, Student, DelayedMail
 from courses.forms import CourseCreateForm, StudentCreateForm
 
 
@@ -53,6 +52,12 @@ class CourseCreateView(CreateView):
         context = super(CourseCreateView, self).get_context_data(**kwargs)
         context.update({'title': 'Add course'})
         return context
+
+    def form_valid(self, form):
+        course = form.save()
+        form.send_email()
+        DelayedMail(course=course, name=course.name).save()
+        return super(CourseCreateView, self).form_valid(form)
 
 
 class StudentCreateView(FormView):

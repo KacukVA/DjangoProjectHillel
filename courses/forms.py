@@ -1,6 +1,8 @@
 from django import forms
 from django.core.exceptions import ValidationError
+
 from courses.models import Student, Course
+from courses.tasks import send_emails
 
 
 class CourseCreateForm(forms.ModelForm):
@@ -16,6 +18,14 @@ class CourseCreateForm(forms.ModelForm):
             'thesis': forms.Textarea(attrs={'class': 'form-control', 'rows': '5'}),
         }
 
+    def send_email(self):
+        data = {
+            'name': self.cleaned_data['name'],
+            'description': self.cleaned_data['description'],
+            'teacher': self.cleaned_data['teacher'].name
+                }
+        send_emails.delay(data)
+
 
 class StudentCreateForm(forms.ModelForm):
     class Meta:
@@ -27,6 +37,7 @@ class StudentCreateForm(forms.ModelForm):
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
             'age': forms.NumberInput(attrs={'class': 'form-control'}),
             'group': forms.Select(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
     def clean_first_name(self):
