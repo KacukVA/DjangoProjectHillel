@@ -55,7 +55,6 @@ class CourseCreateView(CreateView):
 
     def form_valid(self, form):
         course = form.save()
-        form.send_email()
         DelayedMail(course=course, name=course.name).save()
         return super(CourseCreateView, self).form_valid(form)
 

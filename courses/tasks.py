@@ -7,10 +7,10 @@ from courses.models import Student, DelayedMail
 def send_emails(data):
     emails = Student.objects.exclude(email__isnull=True).values_list('email', flat=True)
     message = f"""
-        Name: {data['name']}
-        Description: {data['description']}
-        Teacher: {data['teacher']}
-    """
+Name: {data['name']}
+Description: {data['description']}
+Teacher: {data['teacher']}
+"""
     for email in emails:
         send_mail(
             subject=f'*** New course ***',
@@ -25,8 +25,8 @@ def daily_mail():
     emails = Student.objects.exclude(email__isnull=True).values_list('email', flat=True)
     courses = DelayedMail.objects.all().values_list('name', flat=True)
     message = f"""
-    New courses today:  
-    {','.join(courses)}   
+New courses today:  
+{','.join(courses)}   
 """
     for email in emails:
         send_mail(
