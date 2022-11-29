@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     'debug_toolbar',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -166,5 +167,18 @@ CELERY_BEAT_SCHEDULE = {
     'daily_mail': {
         'task': 'courses.tasks.daily_mail',
         'schedule': crontab(minute=0, hour=0)
+    },
+    'refresh_token': {
+        'task': 'courses.tasks.refresh_token',
+        'schedule': crontab(minute=0, hour=0)
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }

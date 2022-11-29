@@ -1,6 +1,8 @@
 from DjangoProjectHillel.celery import app
 from django.core.mail import send_mail
 from courses.models import Student, DelayedMail
+from rest_framework.authtoken.models import Token
+from os import system
 
 
 @app.task
@@ -36,3 +38,10 @@ New courses today:
             recipient_list=[email]
         )
     DelayedMail.objects.all().delete()
+
+
+@app.task
+def refresh_token():
+    users = Token.objects.select_related().values_list('user__username', flat=True)
+    for username in users:
+        system(f'python manage.py drf_create_token -r {username}')

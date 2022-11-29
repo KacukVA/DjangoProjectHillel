@@ -16,8 +16,6 @@ def word_count(text):
     return len(re.findall(r'\w+', text))
 
 
-# В задаче указано "іемплітний фільтр", а это инклюжен тег, но на занятии вы и его называли темплейт фильтром.
-# Я запутался, но думаю, что сделал правильно :)
 @register.inclusion_tag('includes/course_list.html')
 def get_favorites():
     return {

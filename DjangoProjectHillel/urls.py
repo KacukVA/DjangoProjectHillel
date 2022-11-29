@@ -20,4 +20,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('courses.urls')),
     path('__debug__/', include('debug_toolbar.urls')),
+    path('api', include(('api.urls', 'api'), namespace='api')),
 ]
