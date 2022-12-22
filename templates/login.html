@@ -1,0 +1,15 @@
+{% extends 'template.html' %}
+{% block title %}
+    Login
+{% endblock %}
+{% block content %}
+    {% block login %}
+    {% endblock %}
+        <div class="form-group">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-success">Submit</button>
+            </form>
+        </div>
+{% endblock %}
