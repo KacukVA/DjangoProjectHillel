@@ -2,8 +2,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, TemplateView
 from courses.models import Course, Student, DelayedMail
 from courses.forms import CourseCreateForm, StudentCreateForm
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
+@method_decorator(cache_page(60 * 1), 'get')
+# @cache_page(60 * 1)
 class IndexView(ListView):
     model = Course
     template_name = 'index.html'
@@ -12,6 +16,7 @@ class IndexView(ListView):
         return self.model.objects.select_related('teacher')
 
 
+@method_decorator(cache_page(60 * 2), 'get')
 class StudentListView(ListView):
     model = Student
     template_name = 'students.html'
@@ -20,6 +25,7 @@ class StudentListView(ListView):
         return self.model.objects.select_related('group')
 
 
+@method_decorator(cache_page(60 * 3), 'get')
 class CategoryView(IndexView):
     paginate_by = 10
 
