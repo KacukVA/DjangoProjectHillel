@@ -45,3 +45,4 @@ def refresh_token():
     users = Token.objects.select_related().values_list('user__username', flat=True)
     for username in users:
         system(f'python manage.py drf_create_token -r {username}')
+

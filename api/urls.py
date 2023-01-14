@@ -12,9 +12,3 @@ urlpatterns = [
     path('/', include(router.urls)),
     path('token/', obtain_auth_token),
 ]
-# from django.urls import path
-# from api import views
-#
-# urlpatterns = [
-#     path('students/', views.StudentListView.as_view(), name='students')
-# ]

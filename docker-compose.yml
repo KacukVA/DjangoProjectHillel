@@ -30,13 +30,16 @@ services:
   rabbit:
     image: rabbitmq
   db:
-    platform: linux/x86_64
-    image: mysql:8.0.21
+    image: postgres
     restart: on-failure
-    env_file:
-      - .env
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_USER: "django"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: 'django_dev'
     volumes:
-      - ./db:/var/lib/mysql
+      - ./db:/var/lib/postgres
   cache:
     image: memcached
     ports:

@@ -7,7 +7,6 @@ from django.views.decorators.cache import cache_page
 
 
 @method_decorator(cache_page(60 * 1), 'get')
-# @cache_page(60 * 1)
 class IndexView(ListView):
     model = Course
     template_name = 'index.html'
