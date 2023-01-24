@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
 from courses.views import CourseCreateView, IndexView, CourseDetailView, StudentCreateView, CategoryView, \
-    CourseUpdateView, StudentListView, StudentDetailView, StudentUpdateView, UserProfileTemplateView
+    CourseUpdateView, StudentListView, StudentDetailView, StudentUpdateView, UserProfileTemplateView, GroupListView
 
 urlpatterns = [
     path('', IndexView.as_view(), name='home'),
@@ -16,4 +16,5 @@ urlpatterns = [
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('profile/', UserProfileTemplateView.as_view(), name='profile'),
+    path('groups/', GroupListView.as_view(), name='groups'),
 ]

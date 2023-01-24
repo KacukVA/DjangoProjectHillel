@@ -1,4 +1,5 @@
 {% extends 'template.html' %}
+{% load static %}
 {% load courses_filters %}
 {% block title %}
     Courses
@@ -28,3 +29,7 @@
     </div>
 
 {% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/index.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,41 @@
+{% extends 'template.html' %}
+{% load static %}
+{% block title %}
+    Groups
+{% endblock %}
+{% block content %}
+
+    <div class="container">
+        <button class="btn btn-success" id="create">
+            Create
+        </button>
+        <button class="btn btn-success" id="get">
+            Get
+        </button>
+    </div>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+        </tr>
+        </thead>
+        <tbody id="groups">
+        {% for group in object_list %}
+            <tr>
+                <td>
+                    <p contenteditable="true" data-group-id="{{ group.id }}">
+                        {{ group.name }}
+                    </p>
+                    <button type="button" class="btn btn-success update">Update</button>
+                    <button type="button" class="btn btn-danger delete">Delete</button>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'js/index.js' %}"></script>
+{% endblock js %}

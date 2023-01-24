@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, CreateView, FormView, UpdateView, TemplateView
-from courses.models import Course, Student, DelayedMail
+from courses.models import Course, Student, DelayedMail, Group
 from courses.forms import CourseCreateForm, StudentCreateForm
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
@@ -91,3 +91,9 @@ class StudentUpdateView(UpdateView):
     template_name = "student_update.html"
     form_class = StudentCreateForm
     success_url = '/students'
+
+
+class GroupListView(ListView):
+    model = Group
+    template_name = 'groups.html'
+
