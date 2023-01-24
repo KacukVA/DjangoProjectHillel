@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"'
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    restart: on-failure
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: 'celery -A DjangoProjectHillel worker -l INFO -B'
+    env_file:
+      - .env
+    volumes:
+      - ./:/app
+    restart: on-failure
+    depends_on:
+      - rabbit
+  rabbit:
+    image: rabbitmq
+  db:
+    image: postgres
+    restart: on-failure
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_USER: "django"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: 'django_dev'
+    volumes:
+      - ./db:/var/lib/postgres
+  cache:
+    image: memcached
+    ports:
+      - '11211:11211'
+    restart: on-failure
+    depends_on:
+      - app
+

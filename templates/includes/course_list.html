@@ -1,0 +1,8 @@
+<div class="form-group">
+    <span><b>Favorites:</b></span>
+    {% for favorite in favorites %}
+        <a href="{% url 'course_detail' favorite.group__course__id %}"
+           style="text-decoration: none">{{ favorite.group__course__name }}{% if not forloop.last %}
+            ,{% endif %} </a>
+    {% endfor %}
+</div>
